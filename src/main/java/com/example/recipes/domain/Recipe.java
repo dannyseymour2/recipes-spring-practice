@@ -1,5 +1,6 @@
 package com.example.recipes.domain;
 
+import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -14,10 +15,13 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import lombok.Builder;
 import lombok.Data;
+import lombok.ToString;
 
 @Entity
 @Data
+@ToString(exclude = {"ingredients","categories","notes"})
 public class Recipe {
 
   @Id
@@ -25,11 +29,13 @@ public class Recipe {
   private Long id;
 
   private String description;
-  private Integer prepTimes;
   private Integer cookTime;
+  private Integer prepTime;
   private Integer servings;
   private String source;
   private String url;
+
+  @Lob
   private String directions;
 
   @Enumerated(value= EnumType.STRING)
@@ -43,12 +49,12 @@ public class Recipe {
 
 
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
-  private Set<Ingredient> ingredients;
+  private Set<Ingredient> ingredients = new HashSet<>();
 
   @ManyToMany
   @JoinTable(name="recipe_category",
   joinColumns = @JoinColumn(name="recipe_id"),inverseJoinColumns = @JoinColumn(name="category_id"))
-  private Set<Category> categories;
+  private Set<Category> categories = new HashSet<>();
 
 
 }
