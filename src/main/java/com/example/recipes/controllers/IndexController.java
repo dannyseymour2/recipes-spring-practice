@@ -18,7 +18,7 @@ public class IndexController {
 
   @GetMapping({"/","","/index"})
   public String getPage(Model model){
-
+  //circleci test 2
     List<Recipe> recipes = recipeService.getAllRecipes();
     if(recipes.size()>0){
       model.addAttribute("recipes", recipes);
