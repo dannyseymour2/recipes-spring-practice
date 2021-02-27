@@ -5,6 +5,10 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.example.recipes.command.RecipeCommand;
+import com.example.recipes.converters.RecipeCommandToRecipe;
+import com.example.recipes.converters.RecipeToRecipeCommand;
+
 import com.example.recipes.domain.Recipe;
 import com.example.recipes.repositories.RecipeRepository;
 import java.util.LinkedList;
@@ -21,10 +25,14 @@ class RecipeServiceImplTest {
   @Mock
   RecipeRepository recipeRepository;
 
+  RecipeCommandToRecipe recipeCommandToRecipe;
+  RecipeToRecipeCommand recipeToRecipeCommand;
+
   @BeforeEach
   void setUp() {
     MockitoAnnotations.initMocks(this);
-    recipeService = new RecipeServiceImpl(recipeRepository);
+    recipeService = new RecipeServiceImpl(recipeRepository, recipeCommandToRecipe,
+        recipeToRecipeCommand);
   }
 
   @Test
@@ -37,4 +45,5 @@ class RecipeServiceImplTest {
     assertEquals(1, recipeList.size());
     verify(recipeRepository, times(1)).findAll();
   }
+
 }
